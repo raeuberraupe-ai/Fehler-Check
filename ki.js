@@ -219,19 +219,140 @@ const FehlerKI = (() => {
     return fehler;
   }
 
+  // Adjektive/Adverbien die NICHT großgeschrieben werden dürfen
+  const kleinwoerter = new Set([
+    'ich','du','er','sie','es','wir','ihr','sie','mich','dich','ihn','uns','euch',
+    'mein','dein','sein','ihr','unser','euer',
+    'der','die','das','den','dem','des','ein','eine','einen','einem','einer','eines',
+    'und','oder','aber','denn','sondern','weil','dass','wenn','ob','als','wie',
+    'nicht','kein','keine','keinen','keinem','keiner',
+    'sehr','auch','noch','schon','nur','mal','doch','ja','nein','so','nun',
+    'hier','dort','da','oben','unten','links','rechts','vorne','hinten',
+    'heute','gestern','morgen','jetzt','dann','immer','nie','oft','manchmal',
+    'gut','schlecht','groß','klein','alt','neu','lang','kurz','hoch','tief',
+    'schnell','langsam','laut','leise','warm','kalt','hell','dunkel',
+    'schön','hässlich','stark','schwach','hart','weich','süß','bitter',
+    'mit','von','zu','bei','nach','seit','aus','in','an','auf','über','unter',
+    'vor','hinter','neben','zwischen','durch','für','gegen','ohne','um',
+    'ist','war','hat','hatte','wird','wurde','kann','konnte','muss','musste',
+    'soll','sollte','will','wollte','darf','durfte','mag','mochte',
+  ]);
+
   function findeNomenKlein(text) {
     const fehler = [];
     const saetze = text.split(/(?<=[.!?])\s+/);
     for (const satz of saetze) {
       const woerter = satz.trim().split(/\s+/);
       for (let i = 1; i < woerter.length; i++) {
-        const wort = woerter[i].replace(/[.,!?;:"„"]/g, '');
+        const wort = woerter[i].replace(/[.,!?;:"„"«»]/g, '');
         if (wort.length > 2 && wort[0] === wort[0].toLowerCase() && nomen.has(wort.toLowerCase())) {
           fehler.push({ wrong: wort, correct: wort[0].toUpperCase()+wort.slice(1),
-            type:'spelling', explanation:`Nomen großschreiben: "${wort}" → "${wort[0].toUpperCase()+wort.slice(1)}"` });
+            type:'spelling', explanation:`Nomen müssen großgeschrieben werden: "${wort}" → "${wort[0].toUpperCase()+wort.slice(1)}"` });
         }
       }
     }
+    return fehler;
+  }
+
+  function findeGrossschreibFehler(text) {
+    const fehler = [];
+
+    // 1. Satzanfang kleingeschrieben
+    const satzAnfang = /(?:^|[.!?]\s+)([a-zäöü][a-zäöüA-ZÄÖÜ]{2,})/g;
+    let t;
+    while ((t = satzAnfang.exec(text)) !== null) {
+      const wort = t[1];
+      // Ausnahmen: bekannte Kleinwörter die am Satzanfang ok sind (sehr selten)
+      if (!kleinwoerter.has(wort.toLowerCase())) {
+        fehler.push({
+          wrong: wort,
+          correct: wort[0].toUpperCase() + wort.slice(1),
+          type: 'spelling',
+          explanation: `Satzanfang muss großgeschrieben werden: "${wort}" → "${wort[0].toUpperCase()+wort.slice(1)}"`
+        });
+      }
+    }
+
+    // 2. Adjektive nach "etwas/nichts/alles/viel/wenig" müssen groß
+    const substantivierteAdj = /\b(etwas|nichts|alles|viel|wenig|mehr|am meisten)\s+([a-zäöü][a-zäöüß]{2,})\b/g;
+    while ((t = substantivierteAdj.exec(text)) !== null) {
+      const adj = t[2];
+      // Nur wenn es kein bekanntes Kleinwort ist
+      if (!kleinwoerter.has(adj)) {
+        fehler.push({
+          wrong: t[0],
+          correct: t[1] + ' ' + adj[0].toUpperCase() + adj.slice(1),
+          type: 'spelling',
+          explanation: `Nach "${t[1]}" wird das Adjektiv großgeschrieben: "${adj}" → "${adj[0].toUpperCase()+adj.slice(1)}"`
+        });
+      }
+    }
+
+    // 3. Tageszeiten nach "am" müssen groß (am Morgen, am Abend, am Mittag)
+    const tageszeiten = ['morgen','mittag','abend','nacht','vormittag','nachmittag','mitternacht'];
+    for (const tz of tageszeiten) {
+      const m = new RegExp(`\\bam\\s+(${tz})\\b`, 'gi');
+      while ((t = m.exec(text)) !== null) {
+        if (t[1][0] === t[1][0].toLowerCase()) {
+          fehler.push({
+            wrong: t[0],
+            correct: 'am ' + t[1][0].toUpperCase() + t[1].slice(1),
+            type: 'spelling',
+            explanation: `Tageszeiten nach "am" großschreiben: "am ${t[1]}" → "am ${t[1][0].toUpperCase()+t[1].slice(1)}"`
+          });
+        }
+      }
+    }
+
+    // 4. Wochentage kleingeschrieben
+    const wochentage = ['montag','dienstag','mittwoch','donnerstag','freitag','samstag','sonntag'];
+    for (const wt of wochentage) {
+      const m = new RegExp(`\\b(${wt})\\b`, 'g');
+      while ((t = m.exec(text)) !== null) {
+        if (t[1][0] === t[1][0].toLowerCase()) {
+          fehler.push({
+            wrong: t[1],
+            correct: t[1][0].toUpperCase() + t[1].slice(1),
+            type: 'spelling',
+            explanation: `Wochentage großschreiben: "${t[1]}" → "${t[1][0].toUpperCase()+t[1].slice(1)}"`
+          });
+        }
+      }
+    }
+
+    // 5. Monate kleingeschrieben
+    const monate = ['januar','februar','märz','april','mai','juni','juli','august','september','oktober','november','dezember'];
+    for (const mo of monate) {
+      const m = new RegExp(`\\b(${mo})\\b`, 'g');
+      while ((t = m.exec(text)) !== null) {
+        if (t[1][0] === t[1][0].toLowerCase()) {
+          fehler.push({
+            wrong: t[1],
+            correct: t[1][0].toUpperCase() + t[1].slice(1),
+            type: 'spelling',
+            explanation: `Monate großschreiben: "${t[1]}" → "${t[1][0].toUpperCase()+t[1].slice(1)}"`
+          });
+        }
+      }
+    }
+
+    // 6. Verben/Adjektive fälschlich großgeschrieben (nach Artikel)
+    // z.B. "der Große Hund" → "der große Hund" (Adjektiv nach Artikel klein)
+    const adjNachArtikel = /\b(der|die|das|den|dem|des|ein|eine|einen|einem|einer|eines)\s+([A-ZÄÖÜ][a-zäöüß]{2,})\b/g;
+    const echteNomen = nomen;
+    while ((t = adjNachArtikel.exec(text)) !== null) {
+      const folgewort = t[2];
+      // Wenn es KEIN Nomen ist, dann ist Großschreibung falsch
+      if (!echteNomen.has(folgewort.toLowerCase()) && folgewort.length > 3) {
+        fehler.push({
+          wrong: t[0],
+          correct: t[1] + ' ' + folgewort[0].toLowerCase() + folgewort.slice(1),
+          type: 'spelling',
+          explanation: `Adjektive nach Artikel kleinschreiben: "${folgewort}" → "${folgewort[0].toLowerCase()+folgewort.slice(1)}"`
+        });
+      }
+    }
+
     return fehler;
   }
 
@@ -304,6 +425,7 @@ const FehlerKI = (() => {
     }
     add(findeWiederholungen(text));
     add(findeNomenKlein(text));
+    add(findeGrossschreibFehler(text));
     add(findeKomma(text));
     add(findeArtikel(text));
     add(findeRegeln(text, zeitformenRegeln));
