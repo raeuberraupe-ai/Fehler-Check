@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fehler-Checker – Arbeitsblatt Korrektur</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>📝 Fehler-Checker</h1>
+    <p>Lade ein Foto deines Arbeitsblatts hoch – die KI unterstreicht alle Fehler.</p>
+  </header>
+
+  <main>
+
+    <!-- API Key Eingabe -->
+    <section class="api-section">
+      <label for="apiKey">🔑 OpenAI API-Key:</label>
+      <div class="api-input-row">
+        <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
+        <button id="toggleKey" title="Key anzeigen/verstecken">👁</button>
+      </div>
+      <small>
+        Key erstellen auf
+        <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a>.
+        Dein Key wird nur lokal im Browser verwendet und nicht gespeichert.
+      </small>
+    </section>
+
+    <!-- Upload Bereich -->
+    <section class="upload-section">
+      <div class="drop-zone" id="dropZone">
+        <span class="drop-icon">📂</span>
+        <p>Foto hier reinziehen oder klicken zum Auswählen</p>
+        <small>JPG, PNG, WEBP – am besten gut beleuchtet &amp; gerade fotografiert</small>
+        <input type="file" id="fileInput" accept="image/*" hidden />
+      </div>
+      <div class="preview-container" id="previewContainer" hidden>
+        <img id="previewImage" src="" alt="Vorschau" />
+        <button id="removeImage" title="Bild entfernen">✕</button>
+      </div>
+    </section>
+
+    <!-- Analyse Button -->
+    <div class="action-row">
+      <button id="analyzeBtn" class="btn-primary" disabled>
+        🔍 Fehler analysieren
+      </button>
+    </div>
+
+    <!-- Status / Fortschritt -->
+    <div class="status-bar" id="statusBar" hidden>
+      <div class="spinner"></div>
+      <span id="statusText">Wird verarbeitet…</span>
+    </div>
+
+    <!-- Ergebnis -->
+    <section class="result-section" id="resultSection" hidden>
+      <div class="result-header">
+        <h2>Ergebnis</h2>
+        <div class="legend">
+          <span class="legend-item"><mark class="err-spelling">Rechtschreibung</mark></span>
+          <span class="legend-item"><mark class="err-grammar">Grammatik</mark></span>
+          <span class="legend-item"><mark class="err-punctuation">Zeichensetzung</mark></span>
+          <span class="legend-item"><mark class="err-other">Sonstiges</mark></span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="marked">Markierter Text</button>
+        <button class="tab" data-tab="original">Originaltext (OCR)</button>
+        <button class="tab" data-tab="summary">Zusammenfassung</button>
+      </div>
+
+      <div class="tab-content" id="tab-marked">
+        <div class="text-box" id="markedText"></div>
+      </div>
+      <div class="tab-content" id="tab-original" hidden>
+        <div class="text-box" id="originalText"></div>
+      </div>
+      <div class="tab-content" id="tab-summary" hidden>
+        <div class="summary-box" id="summaryBox"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>
+      OCR: <a href="https://tesseract.projectnaptha.com/" target="_blank">Tesseract.js</a>
+      &nbsp;|&nbsp;
+      KI: <a href="https://openai.com" target="_blank">OpenAI GPT-4o</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
