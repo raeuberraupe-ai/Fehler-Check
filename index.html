@@ -3,84 +3,204 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fehler-Checker – Arbeitsblatt Korrektur</title>
+  <title>KorrektAI – Fehler erkennen leicht gemacht</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <header>
-    <h1>📝 Fehler-Checker</h1>
-    <p>Lade ein Foto deines Arbeitsblatts hoch – die KI unterstreicht alle Fehler.</p>
-    <div class="header-badge">✅ Kostenlos – kein Account, kein Key nötig</div>
-  </header>
-
-  <main>
-
-    <!-- Upload Bereich -->
-    <section class="upload-section">
-      <div class="drop-zone" id="dropZone">
-        <span class="drop-icon">📂</span>
-        <p>Foto hier reinziehen oder klicken zum Auswählen</p>
-        <small>JPG, PNG, WEBP – am besten gut beleuchtet &amp; gerade fotografiert</small>
-        <input type="file" id="fileInput" accept="image/*" hidden />
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">✏️ KorrektAI</div>
+      <div class="nav-links">
+        <a href="#tool">Tool</a>
+        <a href="#features">Features</a>
+        <a href="#so-gehts">So geht's</a>
       </div>
-      <div class="preview-container" id="previewContainer" hidden>
-        <img id="previewImage" src="" alt="Vorschau" />
-        <button id="removeImage" title="Bild entfernen">✕</button>
+      <a href="#tool" class="btn-nav">Jetzt ausprobieren →</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">🎓 Kostenlos für Schüler & Lehrer</div>
+      <h1>
+        <span class="highlight-orange">Fehler finden</span><br>
+        <span class="highlight-green">leicht gemacht.</span>
+      </h1>
+      <p class="hero-sub">
+        Foto vom Arbeitsblatt hochladen – die KI unterstreicht automatisch alle
+        Rechtschreib-, Grammatik- und Zeichensetzungsfehler. Kein Account, kein Abo.
+      </p>
+      <div class="hero-btns">
+        <a href="#tool" class="btn-primary">🚀 Jetzt analysieren</a>
+        <a href="#so-gehts" class="btn-ghost">Wie funktioniert's?</a>
       </div>
-    </section>
-
-    <!-- Analyse Button -->
-    <div class="action-row">
-      <button id="analyzeBtn" class="btn-primary" disabled>
-        🔍 Fehler analysieren
-      </button>
+      <div class="hero-stats">
+        <div class="stat"><span>100%</span><small>kostenlos</small></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span>4</span><small>Fehlerkategorien</small></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span>∞</span><small>Analysen</small></div>
+      </div>
     </div>
-
-    <!-- Status / Fortschritt -->
-    <div class="status-bar" id="statusBar" hidden>
-      <div class="spinner"></div>
-      <span id="statusText">Wird verarbeitet…</span>
-    </div>
-
-    <!-- Ergebnis -->
-    <section class="result-section" id="resultSection" hidden>
-      <div class="result-header">
-        <h2>Ergebnis</h2>
-        <div class="legend">
-          <span class="legend-item"><mark class="err-spelling">Rechtschreibung</mark></span>
-          <span class="legend-item"><mark class="err-grammar">Grammatik</mark></span>
-          <span class="legend-item"><mark class="err-punctuation">Zeichensetzung</mark></span>
-          <span class="legend-item"><mark class="err-other">Sonstiges</mark></span>
+    <div class="hero-visual">
+      <div class="demo-card">
+        <div class="demo-text">
+          Es war einmal ein <mark class="err-spelling">kleine</mark> Hund der
+          <mark class="err-spelling">hies</mark> Bello. Er lebte in
+          <mark class="err-grammar">einen grosen</mark> Haus
+          <mark class="err-punctuation">weil</mark> er die Vögel mochte.
+          Jeden <mark class="err-spelling">tages</mark> lief er in den Garten.
+        </div>
+        <div class="demo-legend">
+          <span><mark class="err-spelling">RS</mark> Rechtschreibung</span>
+          <span><mark class="err-grammar">GR</mark> Grammatik</span>
+          <span><mark class="err-punctuation">ZS</mark> Zeichensetzung</span>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab active" data-tab="marked">Markierter Text</button>
-        <button class="tab" data-tab="original">Originaltext (OCR)</button>
-        <button class="tab" data-tab="summary">Zusammenfassung</button>
+  <!-- ===== FEATURES ===== -->
+  <section class="features" id="features">
+    <div class="section-inner">
+      <h2>Was KorrektAI kann</h2>
+      <p class="section-sub">Alles was du für die Fehlerkorrektur brauchst – in einem Tool.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📸</div>
+          <h3>Foto hochladen</h3>
+          <p>Einfach ein Foto vom Arbeitsblatt machen und hochladen. Drag & Drop oder Klick.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>Automatische Texterkennung</h3>
+          <p>Tesseract.js erkennt den Text direkt im Browser – auch bei Handschrift.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>KI-Fehleranalyse</h3>
+          <p>Unsere KI prüft Rechtschreibung, Grammatik, Zeitformen, Artikel und mehr.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Farbige Markierungen</h3>
+          <p>Jede Fehlerkategorie bekommt eine eigene Farbe. Hover für Erklärung.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Fehler-Zusammenfassung</h3>
+          <p>Übersicht aller gefundenen Fehler nach Kategorie sortiert.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>100% privat</h3>
+          <p>Alles läuft lokal im Browser. Keine Daten werden gespeichert oder übertragen.</p>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="tab-content" id="tab-marked">
-        <div class="text-box" id="markedText"></div>
+  <!-- ===== SO GEHT'S ===== -->
+  <section class="howto" id="so-gehts">
+    <div class="section-inner">
+      <h2>So einfach geht's</h2>
+      <p class="section-sub">In 3 Schritten zu deiner Fehleranalyse.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Foto hochladen</h3>
+          <p>Mach ein Foto vom Arbeitsblatt oder ziehe eine Bilddatei in das Tool.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Analysieren klicken</h3>
+          <p>Die KI erkennt den Text und analysiert alle Fehler automatisch.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Fehler sehen</h3>
+          <p>Alle Fehler werden farbig markiert mit Erklärung angezeigt.</p>
+        </div>
       </div>
-      <div class="tab-content" id="tab-original" hidden>
-        <div class="text-box" id="originalText"></div>
-      </div>
-      <div class="tab-content" id="tab-summary" hidden>
-        <div class="summary-box" id="summaryBox"></div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- ===== TOOL ===== -->
+  <section class="tool-section" id="tool">
+    <div class="section-inner">
+      <h2>Jetzt ausprobieren</h2>
+      <p class="section-sub">Lade ein Foto hoch und lass die KI die Arbeit machen.</p>
 
+      <div class="tool-card">
+
+        <!-- Upload -->
+        <div class="upload-section">
+          <div class="drop-zone" id="dropZone">
+            <span class="drop-icon">📂</span>
+            <p>Foto hier reinziehen oder klicken</p>
+            <small>JPG, PNG, WEBP – gut beleuchtet & gerade fotografiert</small>
+            <input type="file" id="fileInput" accept="image/*" hidden />
+          </div>
+          <div class="preview-container" id="previewContainer" hidden>
+            <img id="previewImage" src="" alt="Vorschau" />
+            <button id="removeImage" title="Bild entfernen">✕</button>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="action-row">
+          <button id="analyzeBtn" class="btn-primary btn-large" disabled>
+            🔍 Fehler analysieren
+          </button>
+        </div>
+
+        <!-- Status -->
+        <div class="status-bar" id="statusBar" hidden>
+          <div class="spinner"></div>
+          <span id="statusText">Wird verarbeitet…</span>
+        </div>
+
+        <!-- Ergebnis -->
+        <div class="result-section" id="resultSection" hidden>
+          <div class="result-header">
+            <h3>Ergebnis</h3>
+            <div class="legend">
+              <span class="legend-item"><mark class="err-spelling">Rechtschreibung</mark></span>
+              <span class="legend-item"><mark class="err-grammar">Grammatik</mark></span>
+              <span class="legend-item"><mark class="err-punctuation">Zeichensetzung</mark></span>
+              <span class="legend-item"><mark class="err-other">Sonstiges</mark></span>
+            </div>
+          </div>
+          <div class="tabs">
+            <button class="tab active" data-tab="marked">Markierter Text</button>
+            <button class="tab" data-tab="original">Originaltext</button>
+            <button class="tab" data-tab="summary">Zusammenfassung</button>
+          </div>
+          <div class="tab-content" id="tab-marked"><div class="text-box" id="markedText"></div></div>
+          <div class="tab-content" id="tab-original" hidden><div class="text-box" id="originalText"></div></div>
+          <div class="tab-content" id="tab-summary" hidden><div class="summary-box" id="summaryBox"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
   <footer>
-    <p>
-      OCR: <a href="https://tesseract.projectnaptha.com/" target="_blank">Tesseract.js</a>
-      &nbsp;|&nbsp;
-      KI: Eigene regelbasierte Fehler-KI
-    </p>
+    <div class="footer-inner">
+      <div class="footer-logo">✏️ KorrektAI</div>
+      <p>Kostenlos, privat, kein Account nötig.</p>
+      <p class="footer-tech">
+        OCR: <a href="https://tesseract.projectnaptha.com/" target="_blank">Tesseract.js</a>
+        &nbsp;|&nbsp; KI: Regelbasierte Fehler-Engine
+      </p>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
