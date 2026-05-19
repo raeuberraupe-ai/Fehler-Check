@@ -55,6 +55,17 @@ header p {
   font-size: 1rem;
 }
 
+.header-badge {
+  display: inline-block;
+  margin-top: 0.75rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 /* ===== Main ===== */
 main {
   flex: 1;
