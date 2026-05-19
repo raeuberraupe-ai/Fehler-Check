@@ -11,23 +11,10 @@
   <header>
     <h1>📝 Fehler-Checker</h1>
     <p>Lade ein Foto deines Arbeitsblatts hoch – die KI unterstreicht alle Fehler.</p>
+    <div class="header-badge">✅ Kostenlos – kein Account, kein Key nötig</div>
   </header>
 
   <main>
-
-    <!-- API Key Eingabe -->
-    <section class="api-section">
-      <label for="apiKey">🔑 OpenAI API-Key:</label>
-      <div class="api-input-row">
-        <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
-        <button id="toggleKey" title="Key anzeigen/verstecken">👁</button>
-      </div>
-      <small>
-        Key erstellen auf
-        <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a>.
-        Dein Key wird nur lokal im Browser verwendet und nicht gespeichert.
-      </small>
-    </section>
 
     <!-- Upload Bereich -->
     <section class="upload-section">
@@ -92,11 +79,12 @@
     <p>
       OCR: <a href="https://tesseract.projectnaptha.com/" target="_blank">Tesseract.js</a>
       &nbsp;|&nbsp;
-      KI: <a href="https://openai.com" target="_blank">OpenAI GPT-4o</a>
+      KI: Eigene regelbasierte Fehler-KI
     </p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="ki.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
