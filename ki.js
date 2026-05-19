@@ -243,6 +243,147 @@ const FehlerKI = (() => {
   ]);
 
   // ══════════════════════════════════════════════
+  //  ZEITFORMEN-REGELN
+  //  Präsens / Präteritum / Perfekt /
+  //  Plusquamperfekt / Futur I & II
+  // ══════════════════════════════════════════════
+
+  // Verben die Perfekt mit SEIN bilden (Bewegung/Zustandsänderung)
+  const seinVerben = [
+    'gegangen','gelaufen','gefahren','geflogen','geschwommen','geklettert',
+    'gesprungen','gerannt','gekrochen','geritten','gesegelt','gewandert',
+    'gekommen','angekommen','weggegangen','zurückgekommen','aufgestanden',
+    'eingeschlafen','aufgewacht','geworden','geblieben','gewesen',
+    'gestorben','gestürzt','gefallen','gesunken','gestiegen','aufgestiegen',
+    'eingestiegen','ausgestiegen','umgestiegen','abgefahren','abgereist',
+    'erschienen','verschwunden','passiert','geschehen','entstanden',
+    'gewachsen','gereift','gealtert','erkrankt','genesen',
+  ];
+
+  const zeitformenRegeln = [
+
+    // ── PERFEKT: haben statt sein ──
+    ...seinVerben.map(v => ({
+      muster: new RegExp(`\\b(ich|er|sie|es|man)\\s+ha(be|t|ben|bt)\\s+(\\w+\\s+)?${v}\\b`, 'gi'),
+      wrong: `habe/hat ${v}`, correct: `bin/ist ${v}`,
+      type: 'grammar',
+      explanation: `Perfekt mit "sein": "bin/ist ${v}", nicht "habe/hat ${v}"`
+    })),
+
+    // ── PERFEKT: sein statt haben (falsch) ──
+    {
+      muster: /\b(ich|er|sie|es)\s+bin\s+(\w+\s+)?(gemacht|gesagt|gegessen|getrunken|gelesen|geschrieben|gespielt|gekauft|gebracht|gedacht|gewusst|gehabt|gearbeitet|gelernt|gefragt|geantwortet|gehört|gesehen|gefunden|genommen|gegeben|gezeigt|erklärt|verstanden|vergessen|erinnert|gewartet|gesucht|gerufen|gelacht|geweint)\b/gi,
+      wrong: 'bin gemacht/gesagt/...', correct: 'habe gemacht/gesagt/...',
+      type: 'grammar',
+      explanation: 'Dieses Verb bildet das Perfekt mit "haben", nicht "sein"'
+    },
+
+    // ── PRÄTERITUM häufige Fehler ──
+    // "er hat gegangen" statt "er ging"
+    { muster: /\b(er|sie|es|man)\s+hat\s+gegangen\b/gi,
+      wrong: 'hat gegangen', correct: 'ging / ist gegangen',
+      type: 'grammar', explanation: 'Präteritum: "ging" oder Perfekt: "ist gegangen"' },
+    { muster: /\b(er|sie|es|man)\s+hat\s+gekommen\b/gi,
+      wrong: 'hat gekommen', correct: 'kam / ist gekommen',
+      type: 'grammar', explanation: 'Präteritum: "kam" oder Perfekt: "ist gekommen"' },
+    { muster: /\b(er|sie|es|man)\s+hat\s+gefahren\b/gi,
+      wrong: 'hat gefahren', correct: 'fuhr / ist gefahren',
+      type: 'grammar', explanation: 'Präteritum: "fuhr" oder Perfekt: "ist gefahren"' },
+    { muster: /\b(er|sie|es|man)\s+hat\s+gelaufen\b/gi,
+      wrong: 'hat gelaufen', correct: 'lief / ist gelaufen',
+      type: 'grammar', explanation: 'Präteritum: "lief" oder Perfekt: "ist gelaufen"' },
+    { muster: /\b(er|sie|es|man)\s+hat\s+geworden\b/gi,
+      wrong: 'hat geworden', correct: 'wurde / ist geworden',
+      type: 'grammar', explanation: 'Präteritum: "wurde" oder Perfekt: "ist geworden"' },
+    { muster: /\b(er|sie|es|man)\s+hat\s+geblieben\b/gi,
+      wrong: 'hat geblieben', correct: 'blieb / ist geblieben',
+      type: 'grammar', explanation: 'Präteritum: "blieb" oder Perfekt: "ist geblieben"' },
+
+    // ── PRÄTERITUM starke Verben falsch gebildet ──
+    { muster: /\b(ich|er|sie|es)\s+gehte\b/gi,
+      wrong: 'gehte', correct: 'ging',
+      type: 'grammar', explanation: 'Präteritum von "gehen" ist "ging", nicht "gehte"' },
+    { muster: /\b(ich|er|sie|es)\s+komte\b/gi,
+      wrong: 'komte', correct: 'kam',
+      type: 'grammar', explanation: 'Präteritum von "kommen" ist "kam", nicht "komte"' },
+    { muster: /\b(ich|er|sie|es)\s+fahrete\b/gi,
+      wrong: 'fahrete', correct: 'fuhr',
+      type: 'grammar', explanation: 'Präteritum von "fahren" ist "fuhr", nicht "fahrete"' },
+    { muster: /\b(ich|er|sie|es)\s+laufte\b/gi,
+      wrong: 'laufte', correct: 'lief',
+      type: 'grammar', explanation: 'Präteritum von "laufen" ist "lief", nicht "laufte"' },
+    { muster: /\b(ich|er|sie|es)\s+schreibte\b/gi,
+      wrong: 'schreibte', correct: 'schrieb',
+      type: 'grammar', explanation: 'Präteritum von "schreiben" ist "schrieb", nicht "schreibte"' },
+    { muster: /\b(ich|er|sie|es)\s+leste\b/gi,
+      wrong: 'leste', correct: 'las',
+      type: 'grammar', explanation: 'Präteritum von "lesen" ist "las", nicht "leste"' },
+    { muster: /\b(ich|er|sie|es)\s+sehte\b/gi,
+      wrong: 'sehte', correct: 'sah',
+      type: 'grammar', explanation: 'Präteritum von "sehen" ist "sah", nicht "sehte"' },
+    { muster: /\b(ich|er|sie|es)\s+nehme\b/gi,
+      wrong: 'nehme', correct: 'nahm',
+      type: 'grammar', explanation: 'Präteritum von "nehmen" ist "nahm", nicht "nehme"' },
+    { muster: /\b(ich|er|sie|es)\s+gebte\b/gi,
+      wrong: 'gebte', correct: 'gab',
+      type: 'grammar', explanation: 'Präteritum von "geben" ist "gab", nicht "gebte"' },
+    { muster: /\b(ich|er|sie|es)\s+trinkete\b/gi,
+      wrong: 'trinkete', correct: 'trank',
+      type: 'grammar', explanation: 'Präteritum von "trinken" ist "trank", nicht "trinkete"' },
+    { muster: /\b(ich|er|sie|es)\s+esste\b/gi,
+      wrong: 'esste', correct: 'aß',
+      type: 'grammar', explanation: 'Präteritum von "essen" ist "aß", nicht "esste"' },
+    { muster: /\b(ich|er|sie|es)\s+singte\b/gi,
+      wrong: 'singte', correct: 'sang',
+      type: 'grammar', explanation: 'Präteritum von "singen" ist "sang", nicht "singte"' },
+    { muster: /\b(ich|er|sie|es)\s+springte\b/gi,
+      wrong: 'springte', correct: 'sprang',
+      type: 'grammar', explanation: 'Präteritum von "springen" ist "sprang", nicht "springte"' },
+    { muster: /\b(ich|er|sie|es)\s+finde\b/gi,
+      wrong: 'finde', correct: 'fand',
+      type: 'grammar', explanation: 'Präteritum von "finden" ist "fand", nicht "finde"' },
+    { muster: /\b(ich|er|sie|es)\s+stehte\b/gi,
+      wrong: 'stehte', correct: 'stand',
+      type: 'grammar', explanation: 'Präteritum von "stehen" ist "stand", nicht "stehte"' },
+
+    // ── PLUSQUAMPERFEKT Fehler ──
+    { muster: /\b(ich|er|sie|es)\s+hatte\s+gegangen\b/gi,
+      wrong: 'hatte gegangen', correct: 'war gegangen',
+      type: 'grammar', explanation: 'Plusquamperfekt von "gehen": "war gegangen", nicht "hatte gegangen"' },
+    { muster: /\b(ich|er|sie|es)\s+hatte\s+gekommen\b/gi,
+      wrong: 'hatte gekommen', correct: 'war gekommen',
+      type: 'grammar', explanation: 'Plusquamperfekt von "kommen": "war gekommen", nicht "hatte gekommen"' },
+    { muster: /\b(ich|er|sie|es)\s+hatte\s+gefahren\b/gi,
+      wrong: 'hatte gefahren', correct: 'war gefahren',
+      type: 'grammar', explanation: 'Plusquamperfekt von "fahren": "war gefahren", nicht "hatte gefahren"' },
+    { muster: /\b(ich|er|sie|es)\s+hatte\s+geworden\b/gi,
+      wrong: 'hatte geworden', correct: 'war geworden',
+      type: 'grammar', explanation: 'Plusquamperfekt von "werden": "war geworden", nicht "hatte geworden"' },
+
+    // ── FUTUR I Fehler ──
+    { muster: /\b(ich|er|sie|es)\s+werde\s+\w+en\s+haben\b/gi,
+      wrong: 'werde ... haben', correct: 'werde ... (Futur I)',
+      type: 'grammar', explanation: 'Futur I: "werde + Infinitiv" (ohne "haben")' },
+    // Futur I mit falschem Partizip statt Infinitiv
+    { muster: /\b(ich|er|sie|es)\s+werde\s+(ge\w+)\b/gi,
+      wrong: 'werde ge...', correct: 'werde ... (Infinitiv)',
+      type: 'grammar', explanation: 'Futur I braucht den Infinitiv, nicht das Partizip II (ge-)' },
+
+    // ── FUTUR II Fehler ──
+    { muster: /\b(ich|er|sie|es)\s+werde\s+\w+\s+gehabt\b/gi,
+      wrong: 'werde gehabt', correct: 'werde ... haben (Futur II)',
+      type: 'grammar', explanation: 'Futur II: "werde + Partizip II + haben/sein"' },
+
+    // ── KONJUNKTIV II häufige Fehler ──
+    { muster: /\bwenn\s+ich\s+du\s+wäre\b/gi,
+      wrong: 'wenn ich du wäre', correct: 'wenn ich du wäre / an deiner Stelle wäre',
+      type: 'grammar', explanation: 'Konjunktiv II: "wenn ich an deiner Stelle wäre"' },
+    { muster: /\b(ich|er|sie|es)\s+würde\s+\w+te\b/gi,
+      wrong: 'würde ...te', correct: 'würde + Infinitiv',
+      type: 'grammar', explanation: 'Konjunktiv II: "würde + Infinitiv", nicht "würde + Präteritum"' },
+  ];
+
+  // ══════════════════════════════════════════════
   //  VERWECHSLUNGSPAARE
   // ══════════════════════════════════════════════
   const verwechslungen = [
@@ -377,6 +518,28 @@ const FehlerKI = (() => {
     return fehler;
   }
 
+  function findeZeitformenFehler(text) {
+    const fehler = [];
+    const gesehen = new Set();
+    for (const regel of zeitformenRegeln) {
+      const m = new RegExp(regel.muster.source, regel.muster.flags);
+      let t;
+      while ((t = m.exec(text)) !== null) {
+        const key = t[0].trim().toLowerCase();
+        if (!gesehen.has(key)) {
+          gesehen.add(key);
+          fehler.push({
+            wrong: t[0].trim(),
+            correct: regel.correct,
+            type: regel.type,
+            explanation: regel.explanation
+          });
+        }
+      }
+    }
+    return fehler;
+  }
+
   function findeVerwechslungen(text) {
     const fehler = [];
     for (const regel of verwechslungen) {
@@ -429,6 +592,7 @@ const FehlerKI = (() => {
     add(findeNomenKleingeschrieben(text));
     add(findeKommaFehler(text));
     add(findeArtikelFehler(text));
+    add(findeZeitformenFehler(text));
     add(findeVerwechslungen(text));
 
     return { errors: alleFehler };
