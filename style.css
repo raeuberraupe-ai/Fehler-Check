@@ -486,3 +486,93 @@ footer p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 0.5r
   .cat-grid { grid-template-columns: 1fr; }
   .tips-grid { grid-template-columns: 1fr; }
 }
+
+/* ===== HINTERGRUND ANIMATIONEN ===== */
+@keyframes floatUp {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+}
+@keyframes orbMove1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(60px,-80px) scale(1.1); }
+  66%     { transform: translate(-40px,60px) scale(0.95); }
+}
+@keyframes orbMove2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(-80px,50px) scale(1.05); }
+  66%     { transform: translate(50px,-70px) scale(1.1); }
+}
+@keyframes orbMove3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(40px,80px) scale(1.08); }
+}
+@keyframes orbMove4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-60px,-40px) scale(0.92); }
+}
+
+.bg-animation {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+
+/* Schwebende Emoji-Blasen */
+.bubble {
+  position: absolute;
+  font-size: 1.8rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+  user-select: none;
+}
+.b1  { left:  5%; animation-duration: 12s; animation-delay:  0s;   font-size: 1.6rem; }
+.b2  { left: 12%; animation-duration: 15s; animation-delay:  2s;   font-size: 2rem; }
+.b3  { left: 22%; animation-duration: 11s; animation-delay:  4s;   font-size: 1.4rem; }
+.b4  { left: 33%; animation-duration: 14s; animation-delay:  1s;   font-size: 1.8rem; }
+.b5  { left: 45%; animation-duration: 13s; animation-delay:  6s;   font-size: 1.5rem; }
+.b6  { left: 55%; animation-duration: 16s; animation-delay:  3s;   font-size: 2rem; }
+.b7  { left: 65%; animation-duration: 10s; animation-delay:  7s;   font-size: 1.6rem; }
+.b8  { left: 75%; animation-duration: 14s; animation-delay:  0.5s; font-size: 1.4rem; }
+.b9  { left: 85%; animation-duration: 12s; animation-delay:  5s;   font-size: 1.9rem; }
+.b10 { left: 93%; animation-duration: 15s; animation-delay:  8s;   font-size: 1.5rem; }
+
+/* Große farbige Orbs im Hintergrund */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+}
+.orb1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--green), transparent);
+  top: -100px; left: -100px;
+  animation: orbMove1 18s ease-in-out infinite;
+}
+.orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--blue), transparent);
+  top: 30%; right: -80px;
+  animation: orbMove2 22s ease-in-out infinite;
+}
+.orb3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, var(--orange), transparent);
+  bottom: 20%; left: 20%;
+  animation: orbMove3 16s ease-in-out infinite;
+}
+.orb4 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--pink), transparent);
+  bottom: -50px; right: 15%;
+  animation: orbMove4 20s ease-in-out infinite;
+}
+
+/* Alle Sektionen über dem Hintergrund */
+.navbar, .hero, .features, .categories,
+.howto, .tips, .tool-section, footer,
+.wave-divider {
+  position: relative; z-index: 1;
+}
